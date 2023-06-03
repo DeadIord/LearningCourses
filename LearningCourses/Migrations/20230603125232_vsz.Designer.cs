@@ -10,13 +10,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearningCourses.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-<<<<<<< HEAD:LearningCourses/Migrations/20230603133316_2.Designer.cs
-    [Migration("20230603133316_2")]
-    partial class _2
-=======
-    [Migration("20230603160717_sss")]
-    partial class sss
->>>>>>> fux user role:LearningCourses/Migrations/20230603160717_sss.Designer.cs
+
+    [Migration("20230603125232_vsz")]
+    partial class vsz
+
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -88,11 +85,7 @@ namespace LearningCourses.Migrations
                     b.Property<string>("Contents")
                         .HasColumnType("nvarchar(max)");
 
-<<<<<<< HEAD:LearningCourses/Migrations/20230603133316_2.Designer.cs
-                    b.Property<byte[]>("File")
-=======
                     b.Property<byte[]>("FilePDF")
->>>>>>> fux user role:LearningCourses/Migrations/20230603160717_sss.Designer.cs
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("FileUrl")
@@ -111,7 +104,6 @@ namespace LearningCourses.Migrations
             modelBuilder.Entity("LearningCourses.Models.Questions", b =>
                 {
                     b.Property<int>("QuestionId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("Content")

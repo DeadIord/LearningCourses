@@ -81,7 +81,11 @@ namespace LearningCourses.Migrations
                     b.Property<string>("Contents")
                         .HasColumnType("nvarchar(max)");
 
+<<<<<<< HEAD
                     b.Property<byte[]>("File")
+=======
+                    b.Property<byte[]>("FilePDF")
+>>>>>>> fux user role
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("FileUrl")
@@ -100,6 +104,7 @@ namespace LearningCourses.Migrations
             modelBuilder.Entity("LearningCourses.Models.Questions", b =>
                 {
                     b.Property<int>("QuestionId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
