@@ -1,0 +1,39 @@
+﻿@model List<Material>
+
+<h1>Materials</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Contents</th>
+            <th>File</th>
+            <th>FileUrl</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var material in Model)
+        {
+            <tr>
+                <td>@material.Title</td>
+                <td>@material.Contents</td>
+                <td>
+                    @if (material.File != null)
+                    {
+                        <a href="@Url.Action("Download", "Material", new { id = material.MaterialId })">Download</a>
+                    }
+                </td>
+                <td><a href="@material.FileUrl">Ссылка</a></td>
+                <td>
+                    
+                    <a href="@Url.Action("Delete", "Material", new { id = material.MaterialId })">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

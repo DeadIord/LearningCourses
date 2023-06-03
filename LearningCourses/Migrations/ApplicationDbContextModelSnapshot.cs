@@ -81,6 +81,9 @@ namespace LearningCourses.Migrations
                     b.Property<string>("Contents")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("File")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("FileUrl")
                         .HasColumnType("nvarchar(max)");
 
