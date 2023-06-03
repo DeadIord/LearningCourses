@@ -16,7 +16,9 @@ namespace LearningCourses.Data
         {
             
         }
+
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
+
         public DbSet<Answers> Answers { get; set; }
         public DbSet<Grades> Grades { get; set; }
         public DbSet<Material> Material { get; set; }
