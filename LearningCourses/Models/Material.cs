@@ -9,7 +9,8 @@ namespace LearningCourses.Models
         [Key]
         public int MaterialId { get; set; }
         public string Title { get; set; }
-        public string Contents { get; set; } 
+        public string Contents { get; set; }
+        public byte[] File { get; set; }
         public string FileUrl { get; set; }
         public string ApplicationUserId { get; set; }
 

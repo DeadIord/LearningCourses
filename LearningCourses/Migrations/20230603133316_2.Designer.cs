@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearningCourses.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230603121508_1")]
-    partial class _1
+    [Migration("20230603133316_2")]
+    partial class _2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -82,6 +82,9 @@ namespace LearningCourses.Migrations
 
                     b.Property<string>("Contents")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("File")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("FileUrl")
                         .HasColumnType("nvarchar(max)");
