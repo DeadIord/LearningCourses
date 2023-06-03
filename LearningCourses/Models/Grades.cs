@@ -1,7 +1,10 @@
-﻿namespace LearningCourses.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LearningCourses.Models
 {
     public class Grades
     {
+        [Key]
         public int GradeId { get; set; }
         public int GradeValue { get; set; }
         public string ApplicationUserId { get; set; }

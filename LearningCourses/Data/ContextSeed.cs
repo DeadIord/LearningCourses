@@ -24,8 +24,8 @@ namespace LearningCourses.Data
             {
                 UserName = "admin",
                 Email = "admin@gmail.com",
-                FirstName = "Админ",
-                LastName = "Админов",
+                Surname = "Админ",
+                Patronymic = "Админов",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true
             };
