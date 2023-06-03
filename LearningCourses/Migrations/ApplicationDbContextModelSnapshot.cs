@@ -81,11 +81,7 @@ namespace LearningCourses.Migrations
                     b.Property<string>("Contents")
                         .HasColumnType("nvarchar(max)");
 
-<<<<<<< HEAD
                     b.Property<byte[]>("File")
-=======
-                    b.Property<byte[]>("FilePDF")
->>>>>>> fux user role
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("FileUrl")
@@ -105,7 +101,8 @@ namespace LearningCourses.Migrations
                 {
                     b.Property<int>("QuestionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -114,6 +111,8 @@ namespace LearningCourses.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("QuestionId");
+
+                    b.HasIndex("TestId");
 
                     b.ToTable("Questions");
                 });
@@ -358,13 +357,13 @@ namespace LearningCourses.Migrations
 
             modelBuilder.Entity("LearningCourses.Models.Answers", b =>
                 {
-                    b.HasOne("LearningCourses.Models.Questions", "Questions")
+                    b.HasOne("LearningCourses.Models.Questions", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Questions");
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("LearningCourses.Models.Grades", b =>
@@ -395,13 +394,13 @@ namespace LearningCourses.Migrations
 
             modelBuilder.Entity("LearningCourses.Models.Questions", b =>
                 {
-                    b.HasOne("LearningCourses.Models.Tests", "Tests")
+                    b.HasOne("LearningCourses.Models.Tests", "Test")
                         .WithMany("Questions")
-                        .HasForeignKey("QuestionId")
+                        .HasForeignKey("TestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Tests");
+                    b.Navigation("Test");
                 });
 
             modelBuilder.Entity("LearningCourses.Models.Tests", b =>

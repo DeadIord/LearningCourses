@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LearningCourses.Models
 {
-    public class Tests
+    public class Tests 
     {
         [Key]
         public int TestId { get; set; }
@@ -12,7 +12,21 @@ namespace LearningCourses.Models
 
         public ICollection<Grades> Grades { get; set; }
         public Material Material { get; set; }
-        public ICollection<Questions> Questions { get; set; }
+        public List<Questions> Questions { get; set; }
 
     }
+
+    public class QuestionViewModel
+    {
+        public int TestId { get; set; }
+        public string Content { get; set; }
+        public List<AnswerViewModel> Answers { get; set; }
+    }
+
+    public class AnswerViewModel
+    {
+        public string Content { get; set; }
+        public bool IsCorrect { get; set; }
+    }
+
 }

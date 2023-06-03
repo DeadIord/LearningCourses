@@ -3,9 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LearningCourses.Migrations
 {
-
-    public partial class vsz : Migration
-
+    public partial class ddd : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -203,7 +201,7 @@ namespace LearningCourses.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Contents = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FilePDF = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    File = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     FileUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -276,7 +274,8 @@ namespace LearningCourses.Migrations
                 schema: "Identity",
                 columns: table => new
                 {
-                    QuestionId = table.Column<int>(type: "int", nullable: false),
+                    QuestionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     TestId = table.Column<int>(type: "int", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -284,8 +283,8 @@ namespace LearningCourses.Migrations
                 {
                     table.PrimaryKey("PK_Questions", x => x.QuestionId);
                     table.ForeignKey(
-                        name: "FK_Questions_Tests_QuestionId",
-                        column: x => x.QuestionId,
+                        name: "FK_Questions_Tests_TestId",
+                        column: x => x.TestId,
                         principalSchema: "Identity",
                         principalTable: "Tests",
                         principalColumn: "TestId",
@@ -352,6 +351,12 @@ namespace LearningCourses.Migrations
                 schema: "Identity",
                 table: "Material",
                 column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Questions_TestId",
+                schema: "Identity",
+                table: "Questions",
+                column: "TestId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",

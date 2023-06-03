@@ -1,0 +1,25 @@
+﻿@model List<Test>
+
+<h1>Tests</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var test in Model)
+        {
+            <tr>
+                <td>@test.Title</td>
+                <td>
+                    <a href="@Url.Action("Delete", "Test", new { id = test.TestId })">Удалить</a>
+                    <a asp-action="AddQuestion" asp-route-testId="@test.TestId" class="btn btn-primary">Добавить вопрос</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

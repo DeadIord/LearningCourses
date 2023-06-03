@@ -1,12 +1,9 @@
 ﻿using LearningCourses.Data;
 using LearningCourses.Models;
-using LearningCourses.View;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace LearningCourses.Controllers
@@ -94,7 +91,4 @@ namespace LearningCourses.Controllers
             return RedirectToAction("Index");
         }
     }
-
-
-
 }
