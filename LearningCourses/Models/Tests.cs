@@ -22,13 +22,14 @@ namespace LearningCourses.Models
         public int QuestionId { get; set; } 
 
         public string Content { get; set; }
-        public List<AnswerViewModel> Answers { get; set; }
+        public List<AnswerViewModel> Answers { get; set; } = new List<AnswerViewModel>();
+
     }
 
-    public class AnswerViewModel
+    public class AnswerViewModel 
     {
         public string Content { get; set; }
-        public bool IsSelected { get; set; }
+        public string IsSelected { get; set; }
         public string IsCorrect { get; set; }
     }
 

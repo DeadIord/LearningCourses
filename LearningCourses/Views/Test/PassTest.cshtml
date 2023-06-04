@@ -1,4 +1,8 @@
-﻿<form asp-action="PassTest" method="post">
+﻿@model List<QuestionViewModel>
+
+<h1>Take Test</h1>
+
+<form asp-action="PassTest" method="post">
     @for (int i = 0; i < Model.Count; i++)
     {
         <h3>Question @(i + 1): @Model[i].Content</h3>
@@ -6,9 +10,8 @@
             @for (int j = 0; j < Model[i].Answers.Count; j++)
             {
                 <div>
-                    <input type="hidden" name="questions[@i].TestId" value="@Model[i].TestId" />
-                    <input type="hidden" name="questions[@i].Answers[@j].Content" value="@Model[i].Answers[j].Content" />
-                    <input type="checkbox" name="questions[@i].Answers[@j].IsSelected" value="true" @(Model[i].Answers[j].IsSelected ? "checked" : "") />
+                    <input type="hidden" name="questionViewModels[@i].TestId" value="@Model[i].TestId" />
+                    <input type="checkbox" name="questionViewModels[@i].Answers[@j].IsSelected" value="1" />
                     <label>@Model[i].Answers[j].Content</label>
                 </div>
             }
