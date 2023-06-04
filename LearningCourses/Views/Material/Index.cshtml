@@ -25,15 +25,18 @@
                 <td>
                     @if (material.File != null)
                     {
-                        <a href="@Url.Action("Download", "Material", new { id = material.MaterialId })">Download</a>
+                        <a asp-action="Download" asp-controller="Material" asp-route-id="@material.MaterialId">Download</a>
                     }
                 </td>
                 <td><a href="@material.FileUrl">Ссылка</a></td>
                 <td>
-                    
-                    <a href="@Url.Action("Delete", "Material", new { id = material.MaterialId })">Delete</a>
+                    <a asp-action="Delete" asp-controller="Material" asp-route-id="@material.MaterialId">Delete</a>
+                    <a asp-action="CreateTest" asp-controller="Test" asp-route-materialId="@material.MaterialId">Создать тест</a>
+                    <a asp-action="Tests" asp-controller="Test" asp-route-materialId="@material.MaterialId">Тесты</a>
+
                 </td>
             </tr>
         }
     </tbody>
 </table>
+

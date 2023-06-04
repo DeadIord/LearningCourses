@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System.Threading.Tasks;
-using WebAppMain.Models;
+
 
 namespace LearningCourses.Data
 {
@@ -15,7 +15,8 @@ namespace LearningCourses.Data
             await roleManager.CreateAsync(new IdentityRole(Enums.Roles.Администратор.ToString()));
             await roleManager.CreateAsync(new IdentityRole(Enums.Roles.Преподаватель.ToString()));
             await roleManager.CreateAsync(new IdentityRole(Enums.Roles.Студент.ToString()));
-           
+            await roleManager.CreateAsync(new IdentityRole(Enums.Roles.Гость.ToString()));
+
         }
         public static async Task SeedSuperAdminAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
@@ -24,8 +25,8 @@ namespace LearningCourses.Data
             {
                 UserName = "admin",
                 Email = "admin@gmail.com",
-                Surname = "Админ",
-                Patronymic = "Админов",
+                Name = "Админ",
+                Surname = "Админов",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true
             };

@@ -1,0 +1,33 @@
+﻿@model List<Tests>
+
+<h1>Tests</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var test in Model)
+        {
+            <tr>
+                <td>@test.Title</td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@test.TestId" method="post">
+
+                        <button type="submit"  class="btn-sm btn btn-danger" 
+                                onclick="return confirm('Вы уверены что хотите удалить данную услугу: @test.Title')">
+                            <i class='bx bx-x bx-xs'></i>
+                            Удаление
+                        </button>
+                    </form>
+                    <a asp-action="AddQuestion" asp-route-testId="@test.TestId" class="btn btn-primary">Добавить вопрос</a>
+                   <a asp-action="PassTest" asp-route-testId="@test.TestId" class="btn btn-primary">Пройти тест</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

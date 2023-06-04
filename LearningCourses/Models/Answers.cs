@@ -2,7 +2,7 @@
 
 namespace LearningCourses.Models
 {
-    public class Answers
+    public class Answers 
     {
         [Key]
         public int AnswerId { get; set; }
@@ -10,7 +10,6 @@ namespace LearningCourses.Models
         public string IsCorrect { get; set; }
         public int QuestionId { get; set; }
 
-        public Questions Questions { get; set; }
-
+        public Questions Question { get; set; }
     }
 }

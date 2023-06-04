@@ -73,15 +73,16 @@ namespace LearningCourses.Data
                .WithOne(v => v.Material)
                .HasForeignKey(v => v.MaterialId);
 
-            builder.Entity<Tests>()
-              .HasMany(h => h.Questions)
-              .WithOne(v => v.Tests)
-              .HasForeignKey(v => v.QuestionId);
-
             builder.Entity<Questions>()
-             .HasMany(h => h.Answers)
-             .WithOne(v => v.Questions)
-             .HasForeignKey(v => v.QuestionId);
+           .HasOne(q => q.Test)
+           .WithMany(t => t.Questions)
+           .HasForeignKey(q => q.TestId);
+
+            builder.Entity<Answers>()
+                .HasOne(a => a.Question)
+                .WithMany(q => q.Answers)
+                .HasForeignKey(a => a.QuestionId);
+
 
             builder.Entity<Tests>()
              .HasMany(h => h.Grades)
