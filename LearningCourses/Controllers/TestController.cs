@@ -138,54 +138,70 @@ namespace LearningCourses.Controllers
 
             return View(questionViewModels);
         }
+
+
+
+
         [HttpPost]
-        public async Task<IActionResult> PassTest(List<QuestionViewModel> questions)
+        public IActionResult PassTest(List<QuestionViewModel> questionViewModels)
         {
-            if (questions == null || questions.Count == 0)
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);  // Получаем ID авторизованного пользователя
+
+            int totalQuestions = questionViewModels.Count;
+            int totalCorrectAnswers = 0;
+
+            foreach (var questionViewModel in questionViewModels)
             {
-                return BadRequest();
-            }
+                int questionCorrectAnswers = 0;
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Получить ID текущего авторизованного пользователя
-
-            var testId = questions[0].TestId; // ID теста для сохранения оценки
-
-            var totalQuestions = questions.Count;
-            var correctAnswers = 0;
-
-            foreach (var question in questions)
-            {
-                foreach (var answer in question.Answers)
+                foreach (var answer in questionViewModel.Answers)
                 {
-                    if (answer.IsSelected)
+                    if (answer.IsCorrect == "1" && answer.IsSelected == "1")
                     {
-                        var answers = _context.Answers.Where(a => a.QuestionId == question.QuestionId && a.IsCorrect == "1").ToList();
-                        if (answers.Any())
-                        {
-                            correctAnswers++;
-                        }
+                        questionCorrectAnswers++;
                     }
                 }
+
+                if (questionCorrectAnswers == questionViewModel.Answers.Count)
+                {
+                    totalCorrectAnswers++;
+                }
             }
-\
 
+            double percentage = (double)totalCorrectAnswers / totalQuestions * 100;
 
-
-
-            var gradeValue = CalculateGradeValue(correctAnswers, totalQuestions);
+            int gradeValue;
+            if (percentage <= 25)
+            {
+                gradeValue = 2;
+            }
+            else if (percentage <= 50)
+            {
+                gradeValue = 3;
+            }
+            else if (percentage <= 75)
+            {
+                gradeValue = 4;
+            }
+            else
+            {
+                gradeValue = 5;
+            }
 
             var grade = new Grades
             {
                 GradeValue = gradeValue,
                 ApplicationUserId = userId,
-                TestId = testId
+                TestId = questionViewModels[0].TestId // Предполагается, что все вопросы в тесте имеют одинаковый идентификатор
             };
 
             _context.Grades.Add(grade);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             return RedirectToAction("Index", "Home");
         }
+
+
 
 
 
