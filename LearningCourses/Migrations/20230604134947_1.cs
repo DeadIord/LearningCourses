@@ -201,7 +201,7 @@ namespace LearningCourses.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Contents = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FilePDF = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    File = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     FileUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },

@@ -10,7 +10,6 @@ namespace LearningCourses.Models
 {
     public class ApplicationUser : IdentityUser
     {
-
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Patronymic { get; set; }
@@ -19,6 +18,5 @@ namespace LearningCourses.Models
 
         public ICollection<Grades> Grades { get; set; }
         public ICollection<Material> Material { get; set; }
-
     }
 }
