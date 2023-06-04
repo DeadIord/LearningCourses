@@ -3,9 +3,12 @@ using LearningCourses.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace LearningCourses.Controllers
@@ -52,7 +55,7 @@ namespace LearningCourses.Controllers
                 tests.MaterialId = materialId;
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index","Material");
             }
 
             return View(tests);
@@ -90,7 +93,7 @@ namespace LearningCourses.Controllers
                     {
                         QuestionId = question.QuestionId,
                         Content = answer.Content,
-                        IsCorrect = answer.IsCorrect ? "true" : "false"
+                        IsCorrect = answer.IsCorrect
                     };
 
                     _context.Answers.Add(answerEntity);
@@ -109,6 +112,152 @@ namespace LearningCourses.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public IActionResult PassTest(int testId)
+        {
+            var test = _context.Tests
+                .Include(t => t.Questions)
+                    .ThenInclude(q => q.Answers)
+                .FirstOrDefault(t => t.TestId == testId);
+
+            if (test == null)
+            {
+                return NotFound();
+            }
+
+            var questionViewModels = test.Questions.Select(q => new QuestionViewModel
+            {
+                TestId = test.TestId,
+                Content = q.Content,
+                Answers = q.Answers.Select(a => new AnswerViewModel
+                {
+                    Content = a.Content,
+                    IsCorrect = a.IsCorrect
+                }).ToList()
+            }).ToList();
+
+            return View(questionViewModels);
+        }
+        [HttpPost]
+        public async Task<IActionResult> PassTest(List<QuestionViewModel> questions)
+        {
+            if (questions == null || questions.Count == 0)
+            {
+                return BadRequest();
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Получить ID текущего авторизованного пользователя
+
+            var testId = questions[0].TestId; // ID теста для сохранения оценки
+
+            var totalQuestions = questions.Count;
+            var correctAnswers = 0;
+
+            foreach (var question in questions)
+            {
+                foreach (var answer in question.Answers)
+                {
+                    if (answer.IsSelected)
+                    {
+                        var answers = _context.Answers.Where(a => a.QuestionId == question.QuestionId && a.IsCorrect == "1").ToList();
+                        if (answers.Any())
+                        {
+                            correctAnswers++;
+                        }
+                    }
+                }
+            }
+
+
+
+
+
+            var gradeValue = CalculateGradeValue(correctAnswers, totalQuestions);
+
+            var grade = new Grades
+            {
+                GradeValue = gradeValue,
+                ApplicationUserId = userId,
+                TestId = testId
+            };
+
+            _context.Grades.Add(grade);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+
+
+        private int CalculateGradeValue(int correctAnswers, int totalQuestions)
+        {
+            int percentage = ((int)correctAnswers / totalQuestions) * 100;
+
+
+            if (percentage < 25)
+            {
+                return 2;
+            }
+            else if (percentage < 50)
+            {
+                return 3;
+            }
+            else if (percentage < 75)
+            {
+                return 4;
+            }
+            else
+            {
+                return 5;
+            }
+           
+        }
+
+
+
+
+        [HttpGet]
+        [ActionName("DeleteComputer")]
+        public async Task<IActionResult> ConfirmDelete(int? id)
+        {
+           
+
+            if (id != null)
+            {
+                Tests Tests = await _context.Tests.FirstOrDefaultAsync(p => p.TestId == id);
+                if (Tests != null)
+                    return View(Tests);
+            }
+            return NotFound();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Deletet(int? id)
+        {
+            if (id != null)
+            {
+                Tests computers = new() { TestId = id.Value };
+                _context.Entry(computers).State = EntityState.Deleted;
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Tests");
+            }
+            return NotFound();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id != null)
+            {
+                Tests computers = new() { TestId = id.Value };
+                _context.Entry(computers).State = EntityState.Deleted;
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index", "Material");
+            }
+            return NotFound();
+        }
 
     }
 

@@ -19,6 +19,8 @@ namespace LearningCourses.Models
     public class QuestionViewModel
     {
         public int TestId { get; set; }
+        public int QuestionId { get; set; } 
+
         public string Content { get; set; }
         public List<AnswerViewModel> Answers { get; set; }
     }
@@ -26,7 +28,10 @@ namespace LearningCourses.Models
     public class AnswerViewModel
     {
         public string Content { get; set; }
-        public bool IsCorrect { get; set; }
+        public bool IsSelected { get; set; }
+        public string IsCorrect { get; set; }
     }
+
+
 
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearningCourses.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230603185305_ddd")]
-    partial class ddd
+    [Migration("20230604151400_xxds")]
+    partial class xxds
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,8 +32,8 @@ namespace LearningCourses.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("IsCorrect")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("IsCorrect")
+                        .HasColumnType("int");
 
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
