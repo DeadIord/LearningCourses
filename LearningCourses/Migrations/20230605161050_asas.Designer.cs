@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearningCourses.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230604134947_1")]
-    partial class _1
+    [Migration("20230605161050_asas")]
+    partial class asas
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,9 @@ namespace LearningCourses.Migrations
 
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateOfPassage")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("GradeValue")
                         .HasColumnType("int");
@@ -102,7 +105,9 @@ namespace LearningCourses.Migrations
             modelBuilder.Entity("LearningCourses.Models.Questions", b =>
                 {
                     b.Property<int>("QuestionId")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -111,6 +116,8 @@ namespace LearningCourses.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("QuestionId");
+
+                    b.HasIndex("TestId");
 
                     b.ToTable("Questions");
                 });
@@ -355,13 +362,13 @@ namespace LearningCourses.Migrations
 
             modelBuilder.Entity("LearningCourses.Models.Answers", b =>
                 {
-                    b.HasOne("LearningCourses.Models.Questions", "Questions")
+                    b.HasOne("LearningCourses.Models.Questions", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Questions");
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("LearningCourses.Models.Grades", b =>
@@ -392,13 +399,13 @@ namespace LearningCourses.Migrations
 
             modelBuilder.Entity("LearningCourses.Models.Questions", b =>
                 {
-                    b.HasOne("LearningCourses.Models.Tests", "Tests")
+                    b.HasOne("LearningCourses.Models.Tests", "Test")
                         .WithMany("Questions")
-                        .HasForeignKey("QuestionId")
+                        .HasForeignKey("TestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Tests");
+                    b.Navigation("Test");
                 });
 
             modelBuilder.Entity("LearningCourses.Models.Tests", b =>

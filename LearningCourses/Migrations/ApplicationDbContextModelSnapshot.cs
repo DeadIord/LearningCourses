@@ -53,6 +53,9 @@ namespace LearningCourses.Migrations
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime>("DateOfPassage")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("GradeValue")
                         .HasColumnType("int");
 

@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace LearningCourses.Controllers
 {
@@ -28,10 +29,21 @@ namespace LearningCourses.Controllers
             var tests = _context.Tests.ToList();
             return View(tests);
         }
+        public IActionResult TestResults(int TestId)
+        {
+            var Grades = _context.Grades
+                .Where(t => t.TestId == TestId)
+                .Include(t => t.ApplicationUser)
+
+                .ToList();
+
+            return View(Grades);
+        }
         public IActionResult Tests(int materialId)
         {
             var tests = _context.Tests
                 .Where(t => t.MaterialId == materialId)
+                
                 .ToList();
 
             return View(tests);
@@ -150,36 +162,48 @@ namespace LearningCourses.Controllers
             int totalQuestions = questionViewModels.Count;
             int totalCorrectAnswers = 0;
 
+            // Вместо переменной "test" получим данные о тесте из БД
+            var test = _context.Tests.FirstOrDefault(t => t.TestId == questionViewModels[0].TestId);
+
+            if (test == null)
+            {
+                return NotFound();
+            }
+
             foreach (var questionViewModel in questionViewModels)
             {
-                int questionCorrectAnswers = 0;
+                int totalQuestionAnswers = questionViewModel.Answers.Count;
+                int correctQuestionAnswers = questionViewModel.Answers.Count(a => a.IsCorrect != null);
+                int selectedCorrectAnswers = questionViewModel.Answers.Count(a => a.IsCorrect != null && a.IsSelected == "1");
 
-                foreach (var answer in questionViewModel.Answers)
-                {
-                    if (answer.IsCorrect == "1" && answer.IsSelected == "1")
-                    {
-                        questionCorrectAnswers++;
-                    }
-                }
-
-                if (questionCorrectAnswers == questionViewModel.Answers.Count)
+                if (selectedCorrectAnswers == correctQuestionAnswers && totalQuestionAnswers > 0)
                 {
                     totalCorrectAnswers++;
+                    foreach (var answer in questionViewModel.Answers)
+                    {
+                        if (answer.IsCorrect == "1" && answer.IsSelected == "1")
+                        {
+                            answer.IsCorrectAnswerSelected = true;
+                        }
+                    }
                 }
             }
+
+
 
             double percentage = (double)totalCorrectAnswers / totalQuestions * 100;
 
             int gradeValue;
-            if (percentage <= 25)
+            
+             if (percentage <= 59)
             {
                 gradeValue = 2;
             }
-            else if (percentage <= 50)
+            else if (percentage <= 74)
             {
                 gradeValue = 3;
             }
-            else if (percentage <= 75)
+            else if (percentage <= 89)
             {
                 gradeValue = 4;
             }
@@ -192,42 +216,27 @@ namespace LearningCourses.Controllers
             {
                 GradeValue = gradeValue,
                 ApplicationUserId = userId,
-                TestId = questionViewModels[0].TestId // Предполагается, что все вопросы в тесте имеют одинаковый идентификатор
+                TestId = questionViewModels[0].TestId,
+                DateOfPassage = DateTime.Now
             };
 
             _context.Grades.Add(grade);
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            var resultViewModel = new TestResultViewModel
+            {
+                TestTitle = test.Title,
+                CorrectPercentage = percentage,
+                CorrectCount = totalCorrectAnswers,
+                IncorrectCount = totalQuestions - totalCorrectAnswers,
+                Grade = gradeValue
+            };
+
+            return View("TestResult", resultViewModel);
         }
 
 
 
-
-
-        private int CalculateGradeValue(int correctAnswers, int totalQuestions)
-        {
-            int percentage = ((int)correctAnswers / totalQuestions) * 100;
-
-
-            if (percentage < 25)
-            {
-                return 2;
-            }
-            else if (percentage < 50)
-            {
-                return 3;
-            }
-            else if (percentage < 75)
-            {
-                return 4;
-            }
-            else
-            {
-                return 5;
-            }
-
-        }
 
 
 

@@ -11,8 +11,13 @@
             {
                 <div>
                     <input type="hidden" name="questionViewModels[@i].TestId" value="@Model[i].TestId" />
-                    <input type="checkbox" name="questionViewModels[@i].Answers[@j].IsSelected" value="1" />
+                    <input type="hidden" name="questionViewModels[@i].Answers[@j].IsCorrect" value="@Model[i].Answers[j].IsCorrect" />
+                    <input type="checkbox" name="questionViewModels[@i].Answers[@j].IsSelected" value="1" onclick="limitCheckboxSelection(this)" />
                     <label>@Model[i].Answers[j].Content</label>
+                    @if (Model[i].Answers[j].IsCorrectAnswerSelected)
+                    {
+                        <strong>Correct Answer</strong>
+                    }
                 </div>
             }
         </div>
@@ -20,3 +25,19 @@
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+<script>
+    function limitCheckboxSelection(checkbox) {
+        var checkboxes = checkbox.parentNode.parentNode.querySelectorAll('input[type="checkbox"]');
+        var checkedCount = Array.from(checkboxes).reduce(function (count, currentCheckbox) {
+            if (currentCheckbox.checked) {
+                count++;
+            }
+            return count;
+        }, 0);
+
+        if (checkedCount > 1) {
+            checkbox.checked = false;
+        }
+    }
+</script>
