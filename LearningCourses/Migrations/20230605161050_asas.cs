@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LearningCourses.Migrations
 {
-    public partial class sjs : Migration
+    public partial class asas : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -248,7 +248,8 @@ namespace LearningCourses.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     GradeValue = table.Column<int>(type: "int", nullable: false),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    TestId = table.Column<int>(type: "int", nullable: false)
+                    TestId = table.Column<int>(type: "int", nullable: false),
+                    DateOfPassage = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -299,7 +300,7 @@ namespace LearningCourses.Migrations
                     AnswerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsCorrect = table.Column<bool>(type: "bit", nullable: false),
+                    IsCorrect = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     QuestionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
