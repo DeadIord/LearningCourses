@@ -38,7 +38,8 @@ namespace LearningCourses.Controllers
             {
                 grades = grades
                     .Where(g => !string.IsNullOrEmpty(g.ApplicationUser.Name) && g.ApplicationUser.Name.Contains(searchString)
-                                || !string.IsNullOrEmpty(g.ApplicationUser.Surname) && g.ApplicationUser.Surname.Contains(searchString))
+                                || !string.IsNullOrEmpty(g.ApplicationUser.Surname) && g.ApplicationUser.Surname.Contains(searchString)
+                                 || !string.IsNullOrEmpty(g.ApplicationUser.Patronymic) && g.ApplicationUser.Patronymic.Contains(searchString))
                     .ToList();
             }
 
