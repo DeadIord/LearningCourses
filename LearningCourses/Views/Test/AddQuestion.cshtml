@@ -7,8 +7,9 @@
 
     <div class="form-group">
         <label asp-for="Content">Вопрос:</label>
-        <textarea class="form-control" asp-for="Content" value="@Model.Content"> </textarea>
+        <textarea class="form-control" asp-for="Content" required>@Model.Content</textarea>
         <span asp-validation-for="Content" class="text-danger"></span>
+
     </div>
 
     <div class="form-group">
@@ -24,7 +25,7 @@
 
                 <label class="form-check-label">Верный</label>
             </div>
-            <input type="text" class="form-control" name="Answers[@i].Content" placeholder="Ответ" value="@Model.Answers[i].Content" />
+            <input type="text" class="form-control" name="Answers[@i].Content" placeholder="Ответ" value="@Model.Answers[i].Content" required />
             <span asp-validation-for="Answers" class="text-danger"></span>
         </div>
     }

@@ -11,6 +11,8 @@ namespace LearningCourses.Models
 
         public int QuestionId { get; set; }
         public int TestId { get; set; }
+
+        [Required(ErrorMessage = "Укажите вопрос!")]
         public string Content { get; set; }
 
         public Tests Test { get; set; }

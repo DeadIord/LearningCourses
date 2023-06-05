@@ -9,7 +9,11 @@ namespace LearningCourses.Models
     {
         [Key]
         public int MaterialId { get; set; }
+
+        [Required(ErrorMessage = "Укажите название!")]
         public string Title { get; set; }
+
+        [Required(ErrorMessage = "Укажите описание!")]
         public string Contents { get; set; }
         public byte[] File { get; set; }
         public string FileUrl { get; set; }

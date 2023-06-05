@@ -28,11 +28,11 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <form asp-action="Deletet" asp-route-id="@test.TestId" method="post">
-                                    <a class="dropdown-item"
+                                    <button class="dropdown-item"
                                             onclick="return confirm('Вы уверены что хотите удалить данный тест: @test.Title')">
                                         <i class='bx bx-x bx-xs'></i>
                                         Удаление
-                                    </a>
+                                    </button>
                                 </form>
                                 <a asp-action="AddQuestion" asp-route-testId="@test.TestId" class="dropdown-item">Добавить вопрос</a>
                                 <a asp-action="TestResults" asp-route-testId="@test.TestId" class="dropdown-item">Посмотреть результаты</a>
@@ -40,7 +40,7 @@
                             </div>
                         </div>
                     }
-                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Студенты"))
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Студент"))
                     {
                         <div class="dropdown">
                             <a class=" dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -48,7 +48,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a asp-action="PassTest" asp-route-testId="@test.TestId" class="dropdown-item">Пройти тест</a>
-                                <a asp-action="TestResultsStudent" asp-route-testId="@test.TestId" class="dropdown-item">Посмотреть результаты</a>
+                                
                             </div>
                         </div>
                     }
