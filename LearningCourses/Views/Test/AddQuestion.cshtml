@@ -1,17 +1,19 @@
 ﻿@model QuestionViewModel
 
-<h1>Add Question</h1>
+<h1>Добавление вопроса</h1>
 
 <form asp-action="SaveQuestion" method="post">
     <input type="hidden" name="TestId" value="@Model.TestId" />
 
     <div class="form-group">
-        <label asp-for="Content">Question</label>
-        <input class="form-control" asp-for="Content" value="@Model.Content" />
+        <label asp-for="Content">Вопрос:</label>
+        <textarea class="form-control" asp-for="Content" required>@Model.Content</textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+
     </div>
 
     <div class="form-group">
-        <label>Answers</label>
+        <label>Ответы:</label>
     </div>
 
     @for (int i = 0; i < Model.Answers.Count; i++)
@@ -21,14 +23,15 @@
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" name="Answers[@i].IsCorrect" value="1" />
 
-                <label class="form-check-label">Correct</label>
+                <label class="form-check-label">Верный</label>
             </div>
-            <input type="text" class="form-control" name="Answers[@i].Content" placeholder="Answer" value="@Model.Answers[i].Content" />
+            <input type="text" class="form-control" name="Answers[@i].Content" placeholder="Ответ" value="@Model.Answers[i].Content" required />
+            <span asp-validation-for="Answers" class="text-danger"></span>
         </div>
     }
 
     <div class="form-group">
-        <button type="submit" class="btn btn-primary" name="action" value="save">Save</button>
-        <button type="submit" class="btn btn-primary" name="action" value="continue">Continue</button>
+        <button type="submit" class="btn btn-primary" name="action" value="save">Сохранить тест</button>
+        <button type="submit" class="btn btn-primary" name="action" value="continue">Продолжить добавление вопросов</button>
     </div>
 </form>

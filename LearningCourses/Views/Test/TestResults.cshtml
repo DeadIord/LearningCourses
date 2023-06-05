@@ -1,6 +1,20 @@
 ﻿@model ICollection<Grades>
 
-<h1>Tests</h1>
+<h1>Результаты теста</h1>
+
+<form method="get" action="@Url.Action("TestResults")" class="d-flex align-items-center">
+    <div class="form-group mx-sm-3 mb-2">
+        <input type="text" class="form-control form-control-plaintext input-full-width" name="searchString" placeholder="Поиск по ФИО" />
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">Поиск</button>
+    <input type="hidden" name="testId" value="@ViewData["TestId"]" />
+</form>
+
+
+
+
+
+
 
 <table class="table">
     <thead>
@@ -17,7 +31,9 @@
             <tr>
                 <td>@test.ApplicationUser.Name @test.ApplicationUser.Surname @test.ApplicationUser.Patronymic</td>
                 <td>@test.GradeValue</td>
-                <td>@test.DateOfPassage</td>
+                <td>
+                        @test.DateOfPassage
+                </td>
             </tr>
         }
     </tbody>

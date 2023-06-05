@@ -8,6 +8,8 @@ namespace LearningCourses.Models
         [Key]
         public int TestId { get; set; }
         public int MaterialId { get; set; }
+
+        [Required(ErrorMessage = "Укажите название!")]
         public string Title { get; set; }
 
         public ICollection<Grades> Grades { get; set; }

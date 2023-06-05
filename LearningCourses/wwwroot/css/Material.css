@@ -1,0 +1,27 @@
+﻿.content-container {
+    position: relative;
+}
+
+.content-short {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 1.2em;
+}
+
+.content-full {
+    position: absolute;
+    top: 130%;
+    left: 0;
+    width: 300%;
+    white-space: normal;
+    display: none;
+    padding-top: 5px;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    Z-INDEX: 1;
+}
+
+.content-container:hover .content-full {
+    display: block;
+}

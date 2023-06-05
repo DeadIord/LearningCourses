@@ -1,9 +1,11 @@
 ﻿@model TestResultViewModel
 
-<h1>Test Result</h1>
+<h2>Результаты прохождения теста</h2>
 
-<h3>Test Title: @Model.TestTitle</h3>
-<p>Correct Percentage: @Model.CorrectPercentage %</p>
-<p>Correct Answers: @Model.CorrectCount</p>
-<p>Incorrect Answers: @Model.IncorrectCount</p>
-<p>Grade: @Model.Grade</p>
+<h3>Название теста: @Model.TestTitle</h3>
+<p>Процент: @Model.CorrectPercentage % @Model.CorrectPercentage.ToString("0.0")</p>
+<p>Правильные ответы: @Model.CorrectCount</p>
+<p>Неправильные ответы: @Model.IncorrectCount</p>
+<p>Оценка: @Model.Grade </p>
+
+<a class="btn btn-outline-primary" href="/Material">Поддвердить</a>

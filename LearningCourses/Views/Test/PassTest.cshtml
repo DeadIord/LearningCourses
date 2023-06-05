@@ -1,11 +1,11 @@
 ﻿@model List<QuestionViewModel>
 
-<h1>Take Test</h1>
+<h1>Прохождение теста</h1>
 
 <form asp-action="PassTest" method="post">
     @for (int i = 0; i < Model.Count; i++)
     {
-        <h3>Question @(i + 1): @Model[i].Content</h3>
+        <h3>Вопрос: @(i + 1): @Model[i].Content</h3>
         <div>
             @for (int j = 0; j < Model[i].Answers.Count; j++)
             {
@@ -23,7 +23,7 @@
         </div>
     }
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Отправить</button>
 </form>
 
 <script>

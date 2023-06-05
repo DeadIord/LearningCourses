@@ -23,29 +23,42 @@ namespace LearningCourses.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public IActionResult Index()
-        {
-            var tests = _context.Tests.ToList();
-            return View(tests);
-        }
-        public IActionResult TestResults(int TestId)
-        {
-            var Grades = _context.Grades
-                .Where(t => t.TestId == TestId)
-                .Include(t => t.ApplicationUser)
 
+
+        // В контроллере для обработки поиска
+        [HttpGet]
+        public IActionResult TestResults(int testId, string searchString)
+        {
+            var grades = _context.Grades
+                .Where(t => t.TestId == testId)
+                .Include(t => t.ApplicationUser)
                 .ToList();
 
-            return View(Grades);
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                grades = grades
+                    .Where(g => !string.IsNullOrEmpty(g.ApplicationUser.Name) && g.ApplicationUser.Name.Contains(searchString)
+                                || !string.IsNullOrEmpty(g.ApplicationUser.Surname) && g.ApplicationUser.Surname.Contains(searchString))
+                    .ToList();
+            }
+
+            ViewData["TestId"] = testId;
+
+            return View(grades);
         }
+
+
         public IActionResult Tests(int materialId)
         {
             var tests = _context.Tests
                 .Where(t => t.MaterialId == materialId)
                 
                 .ToList();
+            // Получаем URL текущей страницы
+            var currentUrl = HttpContext.Request.Path + HttpContext.Request.QueryString;
 
+            // Сохраняем URL предыдущей страницы в куки
+            Response.Cookies.Append("PreviousPageUrl", currentUrl);
             return View(tests);
         }
 
@@ -76,6 +89,8 @@ namespace LearningCourses.Controllers
         [HttpGet]
         public IActionResult AddQuestion(int testId)
         {
+            
+
             var model = new QuestionViewModel
             {
                 TestId = testId,
@@ -88,6 +103,7 @@ namespace LearningCourses.Controllers
         [HttpPost]
         public IActionResult SaveQuestion(QuestionViewModel model, string action)
         {
+
             if (ModelState.IsValid)
             {
                 var question = new Questions
@@ -121,7 +137,18 @@ namespace LearningCourses.Controllers
                 return View("AddQuestion", model);
             }
 
+            // Получаем URL предыдущей страницы из куки
+            if (Request.Cookies.TryGetValue("PreviousPageUrl", out string previousPageUrl))
+            {
+                // Удаляем куки с URL предыдущей страницы
+                Response.Cookies.Delete("PreviousPageUrl");
+                // Возвращаем пользователя на предыдущую страницу
+                return Redirect(previousPageUrl);
+            }
+
+            // Если URL предыдущей страницы не найден, выполнится перенаправление на "Index"
             return RedirectToAction("Index");
+
         }
 
         [HttpGet]
