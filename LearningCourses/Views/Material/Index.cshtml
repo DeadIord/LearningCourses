@@ -1,19 +1,24 @@
 ﻿@model List<Material>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
-<h1>Materials</h1>
+<link rel="stylesheet" href="~/css/Material.css" />
+
+<h3>Список материалов</h3>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Создать материал</a>
 </p>
 
 <table class="table">
     <thead>
         <tr>
-            <th>Title</th>
-            <th>Contents</th>
-            <th>File</th>
-            <th>FileUrl</th>
-            <th>Actions</th>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Файл</th>
+            <th>Ссылка</th>
+            <th>Тесты</th>
         </tr>
     </thead>
     <tbody>
@@ -21,19 +26,50 @@
         {
             <tr>
                 <td>@material.Title</td>
-                <td>@material.Contents</td>
+                <td>
+                    <div class="content-container">
+                        <div class="content-short">
+                            @material.Contents.Substring(0, Math.Min(material.Contents.Length, 20))
+                        </div>
+                        <div class="content-full">
+                            @material.Contents
+                        </div>
+                    </div>
+                </td>
                 <td>
                     @if (material.File != null)
                     {
-                        <a asp-action="Download" asp-controller="Material" asp-route-id="@material.MaterialId">Download</a>
+                        <a asp-action="Download" asp-controller="Material" asp-route-id="@material.MaterialId">Скачать</a>
                     }
                 </td>
-                <td><a href="@material.FileUrl">Ссылка</a></td>
                 <td>
-                    <a asp-action="Delete" asp-controller="Material" asp-route-id="@material.MaterialId">Delete</a>
-                    <a asp-action="CreateTest" asp-controller="Test" asp-route-materialId="@material.MaterialId">Создать тест</a>
-                    <a asp-action="Tests" asp-controller="Test" asp-route-materialId="@material.MaterialId">Тесты</a>
-
+                    @if (material.FileUrl != null)
+                    {
+                         <a href="@material.FileUrl">Ссылка</a>
+                    }
+                </td>
+                <td>
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Администратор") || User.IsInRole("Преподаватель"))
+                    {
+                        <div class="dropdown">
+                            <a class=" dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Меню
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" asp-action="Delete" asp-controller="Material" asp-route-id="@material.MaterialId">Удалить материал</a>
+                                <a class="dropdown-item" asp-action="CreateTest" asp-controller="Test" asp-route-materialId="@material.MaterialId">Создать тест</a>
+                                <a class="dropdown-item" asp-action="Tests" asp-controller="Test" asp-route-materialId="@material.MaterialId">Список тестов</a>
+                            </div>
+                        </div>
+                    }
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Студент"))
+                    {
+                        <a asp-action="Tests" asp-controller="Test" asp-route-materialId="@material.MaterialId">Тесты</a>
+                    }
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Гость"))
+                    {
+                        <span>Нет доступа</span>
+                    }
                 </td>
             </tr>
         }

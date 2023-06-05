@@ -1,100 +1,99 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> _userManager
 @inject RoleManager<IdentityRole> _roleManager
 
 @model IEnumerable<ApplicationUser>
 @{
     ViewBag.Title = "Все пользователи";
+
 }
 <h1>Все пользователи</h1>
+<style>
+    .text-truncate {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        display: inline-block;
+        max-width: 100%;
+    }
+</style>
 
-@if(Model.Any())
-{
-    <form method="get">
-        <label>Фильтр по роли:</label>
-        <select name="roleName">
+<form method="get" class="d-flex align-items-center">
+    
+    <div class="input-group">
+        <select class="form-select form-control" name="roleName">
             <option value="">Все роли</option>
             @foreach (var role in _roleManager.Roles)
             {
                 <option value="@role.Name">@role.Name</option>
             }
         </select>
-        <button type="submit">Применить фильтр</button>
-    </form>
- <a asp-area="Identity" asp-page="/Account/Register"
-       class="btn btn-primary mb-3" style="width:auto">
-        Добавить нового пользователя
-    </a>
-   
-    foreach (var user in Model)
+        <button type="submit" class="btn btn-sm btn-outline-primary">Применить фильтр</button>
+    </div>
+</form>
+
+<div class="row">
+    @foreach (var user in Model)
     {
-        <div class="card-tableNew">
-           
+        <div class="col-md-6  mt-5">
+            <div class="card p-3 d-flex flex-column align-items-start">
+                <div class="d-flex align-items-center">
+                    <div class="image">
+                        @if (user.ProfilePicture != null)
+                        {
+                            <img id="profilePicture" class="rounded" style="width: 120px; height: 120px;" src="data:image/*;base64,@(Convert.ToBase64String(user.ProfilePicture))">
+                        }
+                        else
+                        {
+                            <img id="profilePicture" src="https://img.icons8.com/bubbles/100/000000/user.png" class="rounded" style="width: 120px; height: 120px;" alt="User-Profile-Image">
+                        }
+                    </div>
 
-            <div class="card-body">
-
-                <table style="display:table">
-                    <tr>
-                        <td style="padding-right: 15px;">
-                            @if (user.ProfilePicture != null)
-                            {
-                                <img id="profilePicture" style="width:70px;height:70px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(user.ProfilePicture))">
+                    <div class="ml-3 w-100">
+                        <div class="card-content">
+                            @{
+                                string fullName = $"{user.Surname} {user.Name} {user.Patronymic}";
+                                string truncatedFullName = fullName.Length > 22 ? $"{fullName.Substring(0, 22)}..." : fullName;
                             }
-                            else
-                            {
-                                <div id="profilePicture" style="width:70px;height:70px; object-fit:cover">Image is missing</div>
-                            }
-                        </td>
-                        <td>
-                            <table style="display:inline-table">
-                                <tr>
-                                    <th style="padding-right:15px">Имя: </th>
-                                    <td>@user.Name</td>
-                                </tr>
-                                <tr>
-                                    <th style="padding-right:15px">Фамилия: </th>
-                                    <td>@user.Surname</td>
-                                </tr>
-                                <tr>
-                                    <th style="padding-right:15px">Отчество: </th>
-                                    <td>@user.Patronymic</td>
-                                </tr>
-                                <tr>
-                                    <th style="padding-right:15px">Email: </th>
-                                    <td>@user.Email</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
+                            <h4 class="mb-0 mt-0" title="@fullName">@truncatedFullName</h4>
+                        </div>
+                        <span>@user.Email</span>
 
-            </div>
-           
-            <div class="card-footer">
-                <form asp-action="DeleteUser" asp-route-id="@user.Id" method="post">
-                <a asp-action="EditUser" asp-controller="User" asp-route-id="@user.Id" class="btn btn-primary">Edit</a>
-                <button type="submit" class="btn btn-danger"
-                onclick="return confirm('Вы уверены что хотите удалить данного пользователя: @user.Name @user.Surname')">Delete</button>
-                   
-                   
-                </form>
+                        <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+                            <div class="d-flex flex-column">
+                                <span class="number1">
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        var roles = await _userManager.GetRolesAsync(user);
+                                        <text>@string.Join(", ", roles)</text>
+                                    }
+                                    else
+                                    {
+                                        <text>Неавторизованный пользователь</text>
+                                    }
+                                </span>
+                            </div>
+                        </div>
+                        <div class="button mt-2 d-flex flex-row justify-content-between align-items-center">
+                            <form asp-action="DeleteUser" asp-route-id="@user.Id" method="post">
+                                <a asp-action="EditUser" asp-controller="User" asp-route-id="@user.Id" class="btn btn-sm btn-outline-primary">Изменить</a>
+                                <button type="submit" class="btn btn-sm btn-primary ml-2"
+                                        onclick="return confirm('Вы уверены что хотите удалить данного пользователя: @user.Name @user.Surname')">
+                                    Удалить
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     }
-}
-else
-{
-     <div class="card-tableNew">
-        <div class="card-header">
-            Еще не создано пользователей
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">
-                Используйте кнопку ниже, чтобы создать пользователя
-            </h5>
-            <a class="btn btn-primary" style="width:auto"
-               asp-controller="Account" asp-action="Register">
-                Добавить нового пользователя
-            </a>
-        </div>
-    </div>
-}
+</div>
+<script>
+    function TruncateString(text, maxLength) {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        }
+        return text;
+    }
+</script>

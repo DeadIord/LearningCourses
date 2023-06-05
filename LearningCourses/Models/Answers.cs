@@ -6,6 +6,8 @@ namespace LearningCourses.Models
     {
         [Key]
         public int AnswerId { get; set; }
+
+        [Required]
         public string Content { get; set; }
         public string IsCorrect { get; set; }
         public int QuestionId { get; set; }

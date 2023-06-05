@@ -1,12 +1,16 @@
 ﻿@model List<Tests>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
-<h1>Tests</h1>
+
+<h3>Список Tестов</h3>
 
 <table class="table">
     <thead>
         <tr>
-            <th>Title</th>
-            <th>Actions</th>
+            <th>Название</th>
+            <th>Меню</th>
         </tr>
     </thead>
     <tbody>
@@ -16,16 +20,39 @@
             <tr>
                 <td>@test.Title</td>
                 <td>
-                    <form asp-action="Deletet" asp-route-id="@test.TestId" method="post">
-                      
-                        <button type="submit" class="btn-sm btn btn-danger"
-                                onclick="return confirm('Вы уверены что хотите удалить данную услугу: @test.Title')">
-                            <i class='bx bx-x bx-xs'></i>
-                            Удаление
-                        </button>
-                    </form>
-                    <a asp-action="AddQuestion" asp-route-testId="@test.TestId" class="btn btn-primary">Добавить вопрос</a>
-                    <a asp-action="TestResults" asp-route-testId="@test.TestId" class="btn btn-primary">Посмотреть результаты</a>
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Администратор") || User.IsInRole("Преподаватель"))
+                    {
+                        <div class="dropdown">
+                            <a class=" dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Меню
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <form asp-action="Deletet" asp-route-id="@test.TestId" method="post">
+                                    <a class="dropdown-item"
+                                            onclick="return confirm('Вы уверены что хотите удалить данный тест: @test.Title')">
+                                        <i class='bx bx-x bx-xs'></i>
+                                        Удаление
+                                    </a>
+                                </form>
+                                <a asp-action="AddQuestion" asp-route-testId="@test.TestId" class="dropdown-item">Добавить вопрос</a>
+                                <a asp-action="TestResults" asp-route-testId="@test.TestId" class="dropdown-item">Посмотреть результаты</a>
+                                
+                            </div>
+                        </div>
+                    }
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Студенты"))
+                    {
+                        <div class="dropdown">
+                            <a class=" dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Меню
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a asp-action="PassTest" asp-route-testId="@test.TestId" class="dropdown-item">Пройти тест</a>
+                                <a asp-action="TestResultsStudent" asp-route-testId="@test.TestId" class="dropdown-item">Посмотреть результаты</a>
+                            </div>
+                        </div>
+                    }
+                    
                 </td>
             </tr>
         }

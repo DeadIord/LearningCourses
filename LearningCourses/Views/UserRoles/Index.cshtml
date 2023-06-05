@@ -6,11 +6,12 @@
 }
 <h1>Роли пользователей</h1>
 <div class="card-tableNew">
-    <table class="table table-striped">
+    <table class="table">
         <thead>
             <tr>
                 <th>Имя</th>
                 <th>Фамилия</th>
+                <th>Отчетство</th>
                 <th>Email</th>
                 <th>Роль</th>
                 <th>Действие</th>
@@ -19,16 +20,17 @@
         <tbody>
             @foreach (var user in Model)
             {
-            <tr>
-                <td>@user.Name</td>
-                <td>@user.Surname</td>
-                <td>@user.Email</td>
-                <td>@string.Join(" , ", user.Roles.ToList())</td>
+                <tr>
+                    <td>@user.Name</td>
+                    <td>@user.Surname</td>
+                    <td>@user.Patronymic</td>
+                    <td>@user.Email</td>
+                    <td>@string.Join(" , ", user.Roles.ToList())</td>
 
-                <td>
+                    <td>
                         <a class="btn btn-primary" asp-controller="UserRoles" asp-action="Manage" asp-route-userId="@user.UserId">Управление ролями</a>
-                </td>
-            </tr>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

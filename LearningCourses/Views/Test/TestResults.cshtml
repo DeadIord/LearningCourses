@@ -17,7 +17,13 @@
             <tr>
                 <td>@test.ApplicationUser.Name @test.ApplicationUser.Surname @test.ApplicationUser.Patronymic</td>
                 <td>@test.GradeValue</td>
-                <td>@test.DateOfPassage</td>
+                <td>
+                    @if (test.DateOfPassage != null)
+                    {
+                        @test.DateOfPassage
+                    }
+                    
+                </td>
             </tr>
         }
     </tbody>

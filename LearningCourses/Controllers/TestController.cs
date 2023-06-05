@@ -23,12 +23,7 @@ namespace LearningCourses.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public IActionResult Index()
-        {
-            var tests = _context.Tests.ToList();
-            return View(tests);
-        }
+        
         public IActionResult TestResults(int TestId)
         {
             var Grades = _context.Grades
@@ -255,6 +250,7 @@ namespace LearningCourses.Controllers
             }
             return NotFound();
         }
+
         [HttpPost]
         public async Task<IActionResult> Deletet(int? id)
         {
@@ -264,7 +260,7 @@ namespace LearningCourses.Controllers
                 _context.Entry(computers).State = EntityState.Deleted;
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Tests");
+                return RedirectToAction("Index", "Material");
             }
             return NotFound();
         }

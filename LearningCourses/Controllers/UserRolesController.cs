@@ -31,6 +31,7 @@ namespace LearningCourses.Controllers
                     Email = user.Email,
                     Name = user.Name,
                     Surname = user.Surname,
+                    Patronymic = user.Patronymic,
                     Roles = await GetUserRoles(user)
                 };
                 userRolesViewModel.Add(thisViewModel);

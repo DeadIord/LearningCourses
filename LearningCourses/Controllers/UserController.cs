@@ -58,6 +58,8 @@ namespace ingCourses.Controllers
                 user.Email = model.Email;
                 user.Name = model.Name;
                 user.Surname = model.Surname;
+                user.Patronymic = model.Patronymic;
+                user.PhoneNumber = model.PhoneNumber;
 
                 var result = await _userManager.UpdateAsync(user);
 
@@ -98,6 +100,7 @@ namespace ingCourses.Controllers
                 Email = user.Email,
                 Name = user.Name,
                 Surname = user.Surname,
+                Patronymic = user.Patronymic,
                 PhoneNumber = user.PhoneNumber,
 
                 Claims = userClaims.Select(c => c.Value).ToList(),
