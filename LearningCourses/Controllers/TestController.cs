@@ -47,7 +47,7 @@ namespace LearningCourses.Controllers
 
             return View(grades);
         }
-
+         
 
         public IActionResult Tests(int materialId)
         {
