@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LearningCourses.Migrations
 {
-    public partial class sjs : Migration
+    public partial class dsds : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -299,7 +299,7 @@ namespace LearningCourses.Migrations
                     AnswerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsCorrect = table.Column<bool>(type: "bit", nullable: false),
+                    IsCorrect = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     QuestionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

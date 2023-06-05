@@ -55,12 +55,12 @@ namespace LearningCourses.Controllers
                 tests.MaterialId = materialId;
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Index","Material");
+                return RedirectToAction("Index", "Material");
             }
 
             return View(tests);
         }
-      
+
         [HttpGet]
         public IActionResult AddQuestion(int testId)
         {
@@ -226,7 +226,7 @@ namespace LearningCourses.Controllers
             {
                 return 5;
             }
-           
+
         }
 
 
@@ -236,7 +236,7 @@ namespace LearningCourses.Controllers
         [ActionName("DeleteComputer")]
         public async Task<IActionResult> ConfirmDelete(int? id)
         {
-           
+
 
             if (id != null)
             {
