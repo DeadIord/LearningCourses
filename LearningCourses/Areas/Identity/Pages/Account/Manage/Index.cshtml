@@ -5,72 +5,98 @@
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
-<h4>@ViewData["Title"]</h4>
-<partial name="_StatusMessage" model="Model.StatusMessage" />
-<div class="row">
-    <div class="col-md-6">
-        <div class="d-flex flex-column align-items-center text-center">
-            @if (Model.Input.ProfilePicture != null)
-            {
-                <img id="profilePicture" class="img-thumbnail" src="data:image/*;base64,@(Convert.ToBase64String(Model.Input.ProfilePicture))">
-            }
-            else
-            {
-                <img id="profilePicture" class="img-thumbnail" src="https://pearl-store.ru/local/templates/kvokka/components/bitrix/catalog.element/catalog/images/no-image.jpg">
-            }
+<link rel="stylesheet" href="/css/Profile.css" />
+
+
+<div class="page-content page-container" id="page-content">
+    <div>
+        <div class=" container">
+            <div class="">
+                <div class="card user-card-full">
+                    <div class="row m-l-0 m-r-0">
+                        <div class="col-sm-4 bg-c-lite-green user-profile">
+                            <div class="card-block text-center text-white">
+                                <div class="m-b-25">
+                                    @if (Model.Input.ProfilePicture != null)
+                                    {
+                                        <img id="profilePicture" class="rounded-circle" style="width: 150px; height: 150px;" src="data:image/*;base64,@(Convert.ToBase64String(Model.Input.ProfilePicture))">
+                                    }
+                                    else
+                                    {
+                                        <img id="profilePicture" src="https://img.icons8.com/bubbles/100/000000/user.png" class="rounded-circle" style="width: 150px; height: 150px;" alt="User-Profile-Image">
+                                    }
+                                </div>
+                                <h6 class="f-w-600" style="font-size: larger">@Model.Username</h6>
+                                <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="card-block">
+                                <h6 class="m-b-20 p-b-5 b-b-default f-w-600" >Информация</h6>
+                                <form id="profile-form" enctype="multipart/form-data" method="post">
+                                    <div class="row">
+
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <div class="form-group col-sm-6">
+                                            <label asp-for="Input.Name">Имя</label>
+                                            <input class="form-control" asp-for="Input.Name" />
+                                            <span asp-validation-for="Input.Name" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group col-sm-6">
+                                            <label asp-for="Input.Surname">Фамииля</label>
+                                            <input asp-for="Input.Surname" class="form-control" />
+                                            <span asp-validation-for="Input.Surname" class="text-danger"></span>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="Input.Patronymic">Отчество</label>
+                                        <input asp-for="Input.Patronymic" class="form-control" />
+                                        <span asp-validation-for="Input.Patronymic" class="text-danger"></span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-sm-6">
+                                            <label asp-for="Input.Date_birth">Дата рождения</label>
+                                            <input type="date" asp-for="Input.Date_birth" class="form-control" />
+                                            <span asp-validation-for="Input.Date_birth" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label asp-for="Input.PhoneNumber"></label>
+                                            <input type="number" asp-for="Input.PhoneNumber" class="form-control" />
+                                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <label asp-for="Input.ProfilePicture">Изображение</label>
+                                    <div class="custom-file">
+                                        <input type="file"
+                                               name="file"
+                                               id="file"
+                                               asp-for="Input.ProfilePicture"
+                                               class="custom-file-input"
+                                               onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0])">
+
+                                        <label class="custom-file-label" for="validatedCustomFile" asp-for="Input.ProfilePicture"
+                                               data-browse="Фото">
+                                            Выберите фото...
+                                        </label>
+                                    </div>
+
+
+                                    <button id="update-profile-button" type="submit" class="mt-2 btn btn-primary">Сохранить изменения</button>
+                                </form>
+                               
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <form id="profile-form" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Username">Имя пользователя</label>
-                <input asp-for="Username" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Name">Имя</label>
-                <input asp-for="Input.Name" class="form-control" />
-                <span asp-validation-for="Input.Name" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Input.Surname">Фамииля</label>
-                <input asp-for="Input.Surname" class="form-control" />
-                <span asp-validation-for="Input.Surname" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Patronymic">Отчество</label>
-                <input asp-for="Input.Patronymic" class="form-control" />
-                <span asp-validation-for="Input.Patronymic" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Date_birth">Дата рождения</label>
-                <input type="date" asp-for="Input.Date_birth" class="form-control" />
-                <span asp-validation-for="Input.Date_birth" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.PhoneNumber"></label>
-                <input type="number" asp-for="Input.PhoneNumber" class="form-control" />
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-            </div>
-
-            <label asp-for="Input.ProfilePicture">Изображение</label>
-            <div class="custom-file">
-                <input type="file"
-                       name="file"
-                       id="file"
-                       asp-for="Input.ProfilePicture"
-                       class="custom-file-input"
-                       onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0])">
-
-                <label class="custom-file-label" for="validatedCustomFile" asp-for="Input.ProfilePicture"
-                       data-browse="Фото">
-                    Выберите фото профиля...
-                </label>
-            </div>
-
-            <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
-        </form>
     </div>
 </div>
+</div>
+
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

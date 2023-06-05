@@ -32,7 +32,6 @@ namespace LearningCourses.Areas.Identity.Pages.Account.Manage
 
         [BindProperty]
         public InputModel Input { get; set; }
-
         public class InputModel
         {
             [Display(Name = "Имя")]
@@ -140,17 +139,22 @@ namespace LearningCourses.Areas.Identity.Pages.Account.Manage
             if (Request.Form.Files.Count > 0)
             {
                 IFormFile file = Request.Form.Files.FirstOrDefault();
-                using (var dataStream = new MemoryStream())
+                if (file != null && file.Length > 0)
                 {
-                    await file.CopyToAsync(dataStream);
-                    user.ProfilePicture = dataStream.ToArray();
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await file.CopyToAsync(memoryStream);
+                        user.ProfilePicture = memoryStream.ToArray();
+                    }
                 }
-                await _userManager.UpdateAsync(user);
             }
+
+            await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Ваш профиль был обновлен";
             return RedirectToPage();
         }
+
     }
 }
