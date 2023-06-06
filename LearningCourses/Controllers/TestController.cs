@@ -25,7 +25,7 @@ namespace LearningCourses.Controllers
 
 
 
-        // В контроллере для обработки поиска
+       
         [HttpGet]
         public IActionResult TestResults(int testId, string searchString)
         {
