@@ -1,4 +1,4 @@
-﻿@model List<Material>
+﻿@model IEnumerable<LearningCourses.Models.Material>
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -11,6 +11,7 @@
     <a asp-action="Create">Создать материал</a>
 </p>
 
+
 <table class="table">
     <thead>
         <tr>
@@ -21,18 +22,21 @@
             <th>Тесты</th>
         </tr>
     </thead>
+   
+ 
     <tbody>
         @foreach (var material in Model)
         {
+
             <tr>
-                <td>@material.Title</td>
+                <td>@(material.Title ?? "")</td>
                 <td>
                     <div class="content-container">
                         <div class="content-short">
-                            @material.Contents.Substring(0, Math.Min(material.Contents.Length, 20))
+                            @(material.Contents?.Substring(0, Math.Min(material.Contents.Length, 20)) ?? "")
                         </div>
                         <div class="content-full">
-                            @material.Contents
+                            @(material.Contents ?? "")
                         </div>
                     </div>
                 </td>
@@ -45,7 +49,7 @@
                 <td>
                     @if (material.FileUrl != null)
                     {
-                         <a href="@material.FileUrl">Ссылка</a>
+                        <a href="@material.FileUrl">Ссылка</a>
                     }
                 </td>
                 <td>

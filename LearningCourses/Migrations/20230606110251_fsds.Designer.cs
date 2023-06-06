@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearningCourses.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230605161050_asas")]
-    partial class asas
+    [Migration("20230606110251_fsds")]
+    partial class fsds
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,6 +30,7 @@ namespace LearningCourses.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IsCorrect")
@@ -84,6 +85,7 @@ namespace LearningCourses.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Contents")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("File")
@@ -93,6 +95,7 @@ namespace LearningCourses.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MaterialId");
@@ -110,6 +113,7 @@ namespace LearningCourses.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TestId")
@@ -133,6 +137,7 @@ namespace LearningCourses.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TestId");

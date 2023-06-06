@@ -19,8 +19,7 @@ namespace LearningCourses.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var materials = await _context.Material.ToListAsync();
-            return View(materials);
+            return View(await _context.Material.ToListAsync());
         }
 
         [HttpGet]
